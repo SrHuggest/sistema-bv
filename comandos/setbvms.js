@@ -5,13 +5,13 @@ module.exports.run = async (bot, message, args) => {
 
     if(!message.member.hasPermission("MANAGE_SERVER")) return message.reply("Não pode fazer isso.");
 
-let mensagem = JSON.parse(fs.readFileSync("./setbvm.json", "utf8"));
+let mensagem1 = JSON.parse(fs.readFileSync("./setbvms.json", "utf8"));
 
-  mensagem[message.guild.id] = {
-    mensagem: args.join(" ")
+  mensagem1[message.guild.id] = {
+    mensagem1: args.join(" ")
   }
 
-  fs.writeFile("./setbvm.json", JSON.stringify(mensagem), (err) => {
+  fs.writeFile("./setbvms.json", JSON.stringify(mensagem1), (err) => {
     if (err) console.log(err)
   });
 
