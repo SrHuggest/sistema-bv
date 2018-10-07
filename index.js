@@ -9,12 +9,49 @@ bot.on('ready', () => {
 
 bot.on('guildMemberAdd', async member => {
 
-let ler = JSON.parse(fs.readFileSync("./setbvc.json", "utf8"));
-let ler2 = JSON.parse(fs.readFileSync("./setbvm.json", "utf8"));
 
-  const canal = member.guild.channels.find(ch => ch.name === ler[member.guild.id].channels);
-  canal.send(ler2[member.guild.id].mensagem)
+let ler2 = JSON.parse(fs.readFileSync("./setbvm.json", "utf8"));
+let ler = JSON.parse(fs.readFileSync("./setbvc.json", "utf8"));
+const canal = member.guild.channels.find(ch => ch.id === ler[member.guild.id].channels);
+
+if(ler2[member.guild.id].mensagem.includes("{user}")){
+let bp = ler2[member.guild.id].mensagem
+let nada = bp.replace("{user}", "<@"+member.user.id+">")
+
+ler2[member.guild.id] = {
+  mensagem: nada
+}
+fs.writeFile("./setbvm.json", JSON.stringify(ler2), (err) => {
+  if (err) console.log(err)
 });
+canal.send(ler2[member.guild.id].mensagem)
+} else {
+
+  canal.send(ler2[member.guild.id].mensagem)
+}});
+
+bot.on('guildMemberRemove', async member => {
+
+
+  let ler3 = JSON.parse(fs.readFileSync("./setbvms.json", "utf8"));
+  let ler1 = JSON.parse(fs.readFileSync("./setbvc.json", "utf8"));
+  const canal = member.guild.channels.find(ch => ch.id === ler1[member.guild.id].channels);
+  
+  if(ler3[member.guild.id].mensagem1.includes("{userl}")){
+  let bp = ler3[member.guild.id].mensagem1
+  let nada = bp.replace("{userl}", member.user.tag)
+  
+  ler3[member.guild.id] = {
+    mensagem1: nada
+  }
+  fs.writeFile("./setbvms.json", JSON.stringify(ler3), (err) => {
+    if (err) console.log(err)
+  });
+  canal.send(ler3[member.guild.id].mensagem1)
+  } else {
+  
+    canal.send(ler3[member.guild.id].mensagem1)
+  }});
 
     
 
